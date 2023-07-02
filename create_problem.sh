@@ -16,9 +16,6 @@ mkdir "$problem_dir"
 # Create the problem.txt file
 touch "$problem_file"
 
-# Create the input.txt and expected.txt files
-touch "$input_file" "$expected_file"
-
 # Create the solution.py file with a skeleton code
 cat << EOF > "$solution_file"
 def solution(input):
@@ -26,16 +23,7 @@ def solution(input):
     pass
 
 if __name__ == "__main__":
-    # Read input from input.txt
-    with open("input.txt", "r") as f:
-        input_data = f.read().strip()
-
-    # Call the solution function and store the result
-    result = solution(input_data)
-
-    # Write the result to output.txt
-    with open("output.txt", "w") as f:
-        f.write(str(result))
+    print(solution("")) # insert input in the quotes
 EOF
 
 # Print a success message
