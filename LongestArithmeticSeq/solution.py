@@ -4,23 +4,25 @@ def solution(arr, difference):
     :type difference: int
     :rtype: int
     """
-    subseqLen = [1] * len(arr)
+    len_map = {}
+    answer = 1
 
     for i in range(len(arr)):
-        next = arr[i] + difference
-        for j in range(i, len(arr)):
-            if arr[j] == next:
-                subseqLen[j] = max(subseqLen[j], subseqLen[i]+1)
-                break
+        curr = arr[i]
+        if curr - difference in len_map:
+            len_map[curr] = len_map[curr-difference] + 1
+        else:
+            len_map[curr] = 1
+        answer = max(len_map[curr], answer)
 
-
-
-    return max(subseqLen)
+    return answer
 
 
 
 if __name__ == "__main__":
 
+    print(str(solution([1,2,3,4], 1))) # expect 4
+    print(str(solution([1,3,5,7], 1))) # expect 1
     print(str(solution([1,5,7,8,5,3,4,2,1], -2))) # expect 4
 
     #### this is the timeout case
