@@ -1,6 +1,21 @@
 def solution(nums):
     n = len(nums)
-    left = right = 0
+    if n == 1:
+        return 0
+    left = 1
+    right = nums[0]
+    step = 1
+
+    while right < n-1:
+        max_reach = 0
+        for i in range(left, right+1):
+            if nums[i]+i > right:
+                max_reach = max(max_reach, nums[i]+i - right)
+        left = right + 1
+        right += max_reach
+        step += 1
+
+    return step
 
 
 if __name__ == "__main__":
