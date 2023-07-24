@@ -1,12 +1,23 @@
 def solution(citations):
-    citations.sort(reverse=True)
-    count = 0
+    n = len(citations)
+    freq = [0] * (n+1)
+
     for i in citations:
-        if i > count:
-            count += 1
+        if i > n:
+            freq[n] += 1
         else:
+            freq[i] += 1
+    # print(freq)
+
+    result = 0
+    for j in range(n,-1,-1):
+        result += freq[j]
+        if result >= j:
+            while result > j:
+                result -= 1
             break
-    return count
+    
+    return result
 
 
 if __name__ == "__main__":
