@@ -5,41 +5,35 @@ def solution(gas, cost):
     :rtype: int
     """
     
-    #####
-    # Scenario for failure: If the sum of gas is less than the sum of cost, then there is no possible solution.
-    # Greedy solution: Start from the position after the last station where the difference between gas and cost is the largest.
-    # Idea is that if that station is the last, we can gather as much gas as possible before that station.
-    #####
+    # Idea is that firstly, if the total cost is more than the total gas, this is impossible so return -1
+    # Then we break the problem down into segments, where a segment is a continuous subarray of gas and cost
+    # such that the sum of the segments will always be negative, except for 1 segment that will be positive
+    
+    # This works because if we have a segment that is negative, we can't start from any index in that segment
+    # because we will always run out of gas before we reach the end of the segment.
+    # Thus, we find the segment with the largest positive sum, and return the first index of that segment
     
     if sum(gas) < sum(cost):
         return -1
     
     diff_list = []
-    next_possible = []
-    current_sum = 0
+    first_of_segment = [0]
+    segment_sum = [0]
+    
     for i in range(len(gas)):
-        gas_diff = gas[i] - cost[i]
-        diff_list.append(gas_diff)
-        if current_sum + gas_diff <= 0:
-            next_possible.append(i+1)
-            current_sum = 0
+        diff_list.append(gas[i] - cost[i])
+        
+        segment_sum[-1] += diff_list[-1]
+        if segment_sum[-1] < 0 and i < len(gas) - 1:
+            first_of_segment.append(i+1)
+            segment_sum.append(0)
         else:
-            current_sum += gas_diff
+            if i == len(gas) - 1:
+                first_of_segment.pop(0)
+                segment_sum[-1] += segment_sum[0]
+                segment_sum.pop(0)
     
-    print(diff_list)
-    
-    local_max = float('-inf')
-    last_index = 0
-    for index in next_possible:
-        if index < len(gas) and diff_list[index] > local_max:
-            local_max = diff_list[index]
-            last_index = index
-        else:
-            if diff_list[0] > local_max:
-                local_max = diff_list[0]
-                last_index = 0
-    
-    return last_index
+    return first_of_segment[segment_sum.index(max(segment_sum))]
 
 
 if __name__ == "__main__":
