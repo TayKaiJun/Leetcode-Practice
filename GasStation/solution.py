@@ -16,19 +16,18 @@ def solution(gas, cost):
     if sum(gas) < sum(cost):
         return -1
     
-    diff_list = []
     first_of_segment = [0]
     segment_sum = [0]
     
     for i in range(len(gas)):
-        diff_list.append(gas[i] - cost[i])
+        diff = gas[i] - cost[i]
+        segment_sum[-1] += diff
         
-        segment_sum[-1] += diff_list[-1]
         if segment_sum[-1] < 0 and i < len(gas) - 1:
             first_of_segment.append(i+1)
             segment_sum.append(0)
         else:
-            if i == len(gas) - 1:
+            if i == len(gas) - 1 and len(first_of_segment) > 1:
                 first_of_segment.pop(0)
                 segment_sum[-1] += segment_sum[0]
                 segment_sum.pop(0)
@@ -37,9 +36,10 @@ def solution(gas, cost):
 
 
 if __name__ == "__main__":
-    print(solution([1,2,3,4,5], [3,4,5,1,2]))   # return 3
-    print(solution([2,3,4], [3,4,3]))           # return -1
-    print(solution([5,8,2,8], [6,5,6,6]))       # return 3
-    print(solution([5,1,2,3,4], [4,4,1,5,1]))       # return 4
-    print(solution([1,1,10,1,1], [2,5,1,5,1]))       # return 2
-    print(solution([5,1,2,3,4], [4,4,1,5,1]))       # return 4
+    # print(solution([1,2,3,4,5], [3,4,5,1,2]))   # return 3
+    # print(solution([2,3,4], [3,4,3]))           # return -1
+    # print(solution([5,8,2,8], [6,5,6,6]))       # return 3
+    # print(solution([5,1,2,3,4], [4,4,1,5,1]))       # return 4
+    # print(solution([1,1,10,1,1], [2,5,1,5,1]))       # return 2
+    # print(solution([5,1,2,3,4], [4,4,1,5,1]))       # return 4
+    print(solution([3,1,1], [1,2,2]))       # return 0
