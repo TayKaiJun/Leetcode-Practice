@@ -15,22 +15,52 @@ class Solution(object):
             return None
 
         min_heap = []
-
+        index = 0
+        for ll in lists:
+            if ll:
+                heapq.heappush(min_heap, (ll.val, index, ll))
+                index += 1
         
-        print(min_heap)
+        if min_heap:
+            res = heapq.heappop(min_heap)[2]
+            head = res
+            if res.next:
+                heapq.heappush(min_heap, (res.next.val, index, res.next))
+                index += 1
+        else:
+            return None
+        
+        while min_heap:
+            res.next = heapq.heappop(min_heap)[2]
+            res = res.next
+            if res.next:
+                heapq.heappush(min_heap, (res.next.val, index, res.next))
+                index += 1
+                
+        # while head:
+        #     print(head.val)
+        #     head = head.next
+        
+        return head if head else None
 
 
 def linkedListGenerator(lists):
     result = []
     for l in lists:
-        head = ListNode(l[0])
-        result.append(head)
-        for i in range(1, len(l)):
-            head.next = ListNode(l[i])
-            head = head.next
+        if l:
+            head = ListNode(l[0])
+            result.append(head)
+            for i in range(1, len(l)):
+                head.next = ListNode(l[i])
+                head = head.next
     
     return result
 
 if __name__ == "__main__":
-    lists = linkedListGenerator([[1,4,5],[1,3,4],[2,6]])
-    print(Solution.mergeKLists(lists)) # insert input in the quotes
+    lists1 = linkedListGenerator([[1,4,5],[1,3,4],[2,6]])
+    sol = Solution()
+    print(sol.mergeKLists(lists=lists1)) # insert input in the quotes
+    print(sol.mergeKLists([[],[]]))
+    print(sol.mergeKLists([]))
+    lists2 = linkedListGenerator([[1,4,5],[]])
+    print(sol.mergeKLists(lists=lists2))
