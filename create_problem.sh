@@ -18,12 +18,15 @@ touch "$problem_file"
 
 # Create the solution.py file with a skeleton code
 cat << EOF > "$solution_file"
-def solution(input):
-    # TODO: Implement your solution here
-    pass
+class Solution(object):
+    def problem(self):
+        # TODO: Implement your solution here
+        pass
+
 
 if __name__ == "__main__":
-    print(solution("")) # insert input in the quotes
+    sol = Solution()
+    print(sol.problem("")) # insert input in the quotes
 EOF
 
 # Print a success message
